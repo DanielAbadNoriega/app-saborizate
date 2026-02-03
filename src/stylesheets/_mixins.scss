@@ -1,0 +1,399 @@
+/// Mixin para aplicar el tipo de fuente
+/// @parameter color - Color de letra (hex, number, letra...)
+/// @parameter {Number} font-weight - font-weight de la letra
+/// @parameter {Number} font-size - font-size de la letra
+/// @parameter {Number} letter-spacing - espacio entre letras
+/// @parameter {Number} line-height - espacio entre líneas
+/// @parameter {Number} font-family - familia de la letra (por defecto el de la web que se va a diseñar)
+@mixin fontType($color, $font-weight, $font-size, $letter-spacing: 0, $line-height: -1, $font-family: $font-family-base) {
+  color: $color;
+
+  @if $font-family !=$font-family-base {
+    font-family: $font-family;
+  }
+
+  font-weight: $font-weight;
+  font-size: $font-size;
+  line-height: $font-size*$line-height-base;
+  @content;
+
+}
+
+/// Mixin para diseñar una lista con columnas y filas dinámicas usando CSS Grid.
+///
+/// @parameter {Number} $cols        - Número base de columnas.
+/// @parameter {Number} $rows        - Número base de filas (opcional, por defecto auto).
+/// @parameter {Map}    $breakpoints - Define columnas y filas en diferentes tamaños de pantalla.
+///   - 'xs': (columnas, filas)
+///   - 'sm': (columnas, filas)
+///   - 'md': (columnas, filas)
+///   - 'lg': (columnas, filas)
+@mixin grid-list($cols, $breakpoints: '') {
+  & {
+    display: grid;
+    grid-template-columns: repeat($cols, 1fr);
+    grid-auto-rows: auto;
+
+    @if $breakpoints !='' {
+      // Extraemos y validamos los valores de los breakpoints
+      $xs: if(map-has-key($breakpoints, 'xs'), map-get($breakpoints, 'xs'), ($cols, auto));
+      $sm: if(map-has-key($breakpoints, 'sm'), map-get($breakpoints, 'sm'), ($cols, auto));
+      $md: if(map-has-key($breakpoints, 'md'), map-get($breakpoints, 'md'), ($cols, auto));
+      $lg: if(map-has-key($breakpoints, 'lg'), map-get($breakpoints, 'lg'), ($cols, auto));
+      $xl: if(map-has-key($breakpoints, 'xl'), map-get($breakpoints, 'xl'), ($cols, auto));
+
+      // Validamos y aplicamos los valores para cada breakpoint
+      @each $key, $value in ('xs': $xs, 'sm': $sm, 'md': $md, 'lg': $lg) {
+        @if type-of($value)=='list' and length($value)>=2 {
+          @include media-breakpoint-up($key) {
+            grid-template-columns: repeat(nth($value, 1), 1fr);
+            grid-auto-rows: nth($value, 2);
+          }
+        }
+      }
+
+      // Media query manual para xl
+      @if $screen-xl-min !=null and type-of($xl)=='list' and length($xl)>=2 {
+        @media screen and (min-width: $screen-xl-min) {
+          grid-template-columns: repeat(nth($xl, 1), 1fr);
+          grid-auto-rows: nth($xl, 2);
+        }
+      }
+    }
+  }
+}
+
+/// Genera un bloque correspondiente a una fuente insertando la infrmación de una determinada
+/// fuente del sistema.
+///
+/// @parameter {String} $font-family - El nombre de la familia de fuentes que empleamos
+/// @parameter {String} $text - El texto a incluir como contenido
+/// @content En caso de querer añadir información extra.
+@mixin fontBlock($font-family,$text) {
+    &:before {
+        @include font($font-family);
+        content: $text;
+        @content;
+    }
+}
+
+/// Genera un bloque correspondiente a una fuente insertando la infrmación de una determinada
+/// fuente del sistema.
+///
+/// @parameter {String} $font-family - El nombre de la familia de fuentes que empleamos
+/// @parameter {String} $text - El texto a incluir como contenido
+/// @content En caso de querer añadir información extra.
+@mixin fontBlockAfter($font-family,$text) {
+  &:after {
+    @include font($font-family);
+    content: $text;
+    @content;
+  }
+}
+
+/// Un mixin que hace un ellipsis a un número de lineas de un bloque de texto
+/// @parameter {Number} size - El tamaño de fuentes
+/// @parameter {Number} lines - El número de lineas
+@mixin cutText($size, $lines) {
+    & {
+        font-size: $size;
+        line-height: floor(($size * $line-height-base));
+        @if $lines != -1 {
+            height: $lines * floor(($size * $line-height-base));
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            display: -webkit-box;
+            -webkit-line-clamp: $lines;
+            -webkit-box-orient: vertical;
+        } @else {
+            height: auto;
+            overflow: initial;
+            text-overflow: initial;
+            display: block;
+        }
+    }
+}
+
+/// Mixin orientado a espaciar los elementos de una lista que han sido convertidos en columnas previamente un
+/// determinado espaciado vertical y uno horizontal
+///
+/// @parameter {Number} col-spacing -   El espaciado entre columnas
+/// @parameter {Number} row-spacing -   El espaciado entre filas
+@mixin space-columnized-list ($col-spacing,$row-spacing) {
+    & {
+        margin-right: -$col-spacing/2;
+        margin-left: -$col-spacing/2;
+        margin-top: -$row-spacing;
+        > li {
+            padding-right: $col-spacing/2;
+            padding-left: $col-spacing/2;
+            padding-top: $row-spacing;
+        }
+    }
+
+}
+
+@mixin space-columnized-any ($col-spacing,$row-spacing) {
+    & {
+        margin-right: -$col-spacing/2;
+        margin-left: -$col-spacing/2;
+        margin-top: -$row-spacing;
+        > * {
+            padding-right: $col-spacing/2;
+            padding-left: $col-spacing/2;
+            padding-top: $row-spacing;
+        }
+    }
+
+}
+
+/// Mixin orientado a permitir mostrar una lísta como un conjunto de columnas.
+///
+/// @parameter {Number} cols        - El número de columnas en las que queremos dividir el elemento de menu
+/// @parameter {Map}    breakpoints - En el caso de que queramos romper el diseño de la columna en ciertas posiciones en función del tamaño
+/// @content - Admite cuerpo de contenido que se incluye dentro de los li internos.
+@mixin columnize-list ($cols,$breakpoints:'') {
+    & {
+        @include clearfix;
+
+        img {
+            max-width: 100%;
+        }
+
+
+        @if($breakpoints == '') {
+
+            > li {
+                float: left;
+                display: block;
+                width: computePercentage($cols);
+                // Incluimos el cuerpo del contenido que nos pueden adjuntar
+                @content;
+            }
+
+            > li:nth-child(#{$cols}n+1) {
+                clear: both;
+            }
+        } @else {
+            $xs: if(map-has-key($breakpoints,'xs'),map-get($breakpoints,'xs'),1);
+            $sm: if(map-has-key($breakpoints,'sm'),map-get($breakpoints,'sm'),$cols);
+            $md: if(map-has-key($breakpoints,'md'),map-get($breakpoints,'md'),$cols);
+            $lg: if(map-has-key($breakpoints,'lg'),map-get($breakpoints,'lg'),$cols);
+
+            // Generamos los media para cada caso...
+            @include columnize-list ($xs) {
+                @content;
+            }
+            @if $sm != $xs {
+                @include media-breakpoint-up(sm) {
+                    // Y además debemos resetear el clear del caso anterior, porque sino romper
+                    // donde no toca.
+                    > li:nth-child(#{$xs}n+1) {
+                        clear: none;
+                    }
+
+                    @include columnize-list ($sm) {
+                        @content;
+                    }
+
+                }
+            }
+            @if $md!= $sm {
+              @include media-breakpoint-up(md) {
+                    // Y además debemos resetear el clear del caso anterior, porque sino romper
+                    // donde no toca.
+                    > li:nth-child(#{$sm}n+1) {
+                        clear: none;
+                    }
+
+                    @include columnize-list ($md) {
+                        @content;
+                    }
+                }
+            }
+            @if $lg!= $md {
+              @include media-breakpoint-up(lg) {
+                    // Y además debemos resetear el clear del caso anterior, porque sino romper
+                    // donde no toca.
+                    > li:nth-child(#{$md}n+1) {
+                        clear: none;
+                    }
+
+                    @include columnize-list ($lg) {
+                        @content;
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+/// Mixin que nos permite eliminar una columnización que tenemos para un modo XS
+///
+/// @parameter  {Number} margin [$halfGutter] - El margen para cada li
+/// @parameter  {Number} padding [$halfGutter] - El padding para cada li
+@mixin clear-xs-columns($margin:$halfGutter, $padding:$halfGutter) {
+    @include media-breakpoint-down(xs) {
+        > li {
+            clear: both;
+            width: 100%;
+            position: relative;
+            padding: $halfGutter;
+
+            + li {
+                margin-top: $halfGutter;
+            }
+        }
+    }
+}
+
+/// Mixin orientado a permitir mostrar una lísta de elementos como un conjunto de columnas.
+///
+/// @parameter {Number} cols        - El número de columnas en las que queremos dividir el elemento de menu
+/// @parameter {Map}    breakpoints - En el caso de que queramos romper el diseño de la columna en ciertas posiciones en función del tamaño
+/// @content - Admite cuerpo de contenido que se incluye dentro de los li internos.
+@mixin columnize-any ($cols,$breakpoints:'') {
+    & {
+        @include clearfix;
+
+        img {
+            max-width: 100%;
+        }
+
+        @if($breakpoints == '') {
+
+            > * {
+                float: left;
+                width: computePercentage($cols);
+                // Incluimos el cuerpo del contenido que nos pueden adjuntar
+                @content;
+            }
+
+            > *:nth-child(#{$cols}n+1) {
+                clear: both;
+            }
+        } @else {
+            $xs: if(map-has-key($breakpoints,'xs'),map-get($breakpoints,'xs'),1);
+            $sm: if(map-has-key($breakpoints,'sm'),map-get($breakpoints,'sm'),$cols);
+            $md: if(map-has-key($breakpoints,'md'),map-get($breakpoints,'md'),$cols);
+            $lg: if(map-has-key($breakpoints,'lg'),map-get($breakpoints,'lg'),$cols);
+
+            // Generamos los media para cada caso...
+            @include columnize-any ($xs) {
+                @content;
+            }
+            @if $sm != $xs {
+              @include media-breakpoint-up(sm) {
+                    // Y además debemos resetear el clear del caso anterior, porque sino romper
+                    // donde no toca.
+                    > *:nth-child(#{$xs}n+1) {
+                        clear: none;
+                    }
+
+                    @include columnize-any ($sm) {
+                        @content;
+                    }
+                }
+            }
+            @if $md!= $sm {
+              @include media-breakpoint-up(md) {
+                    // Y además debemos resetear el clear del caso anterior, porque sino romper
+                    // donde no toca.
+                    > *:nth-child(#{$sm}n+1) {
+                        clear: none;
+                    }
+                    @include columnize-any ($md) {
+                        @content;
+                    }
+                }
+            }
+            @if $lg!= $md {
+              @include media-breakpoint-up(lg) {
+                    // Y además debemos resetear el clear del caso anterior, porque sino romper
+                    // donde no toca.
+                    > *:nth-child(#{$md}n+1) {
+                        clear: none;
+                    }
+                    @include columnize-any ($lg) {
+                        @content;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Mixin implementar los estilos de a en conjunto
+///
+/// @parameter  {String} css-class['']  - Nombre de la clase o elemento donde aplicar los estilos :link y :visited, si no se especifica se utilizamos cpomo valor el nodo en el que nos encontramos
+/// @parameter  {Boolean} hover [true]  - Por defecto se incluyen los eventos :hover, :active y :focus
+/// @content    Información extra a añadir al bloque de información
+@mixin a-events($css-class:'', $hover: true) {
+
+    @if $css-class == '' {
+        &, &:visited {
+            @content;
+        }
+    } @else {
+        #{$css-class},
+        #{$css-class}:visited {
+            @content;
+        }
+        @if $hover {
+            @include a-events-hover($css-class) {
+                @content;
+            }
+        }
+    }
+}
+
+/// Mixin implementar los eventos de los estilos de un a en conjunto
+///
+/// @parameter  {String} css-class      - Nombre de la clase o elemento donde aplicar los estilos :hover, :active y :focus, si no se especifica se usa el valor del nodo activo
+/// @content    Información extra a añadir al bloque de información
+@mixin a-events-hover($css-class:'') {
+    @if $css-class == '' {
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus {
+            @content;
+        }
+    } @else {
+        #{$css-class}:hover,
+        #{$css-class}:active,
+        #{$css-class}:focus,
+        #{$css-class}:active:hover,
+        #{$css-class}:active:focus {
+            @content;
+        }
+    }
+}
+
+/// Mixin para incluir el soporte básico para flex en todos los navegadores
+@mixin flex() {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/// Mixin de utilidad para maquetar con FLEXBOX
+///
+/// Flexbox es un sistema de elementos flexibles que llega con la idea de olvidar estos mecanismos y acostumbrarnos a
+/// una mecánica más potente, limpia y personalizable, en la que los elementos HTML se adaptan y colocan automáticament
+/// e y es más fácil personalizar los diseños. Está especialmente diseñado para crear, mediante CSS, estructuras de una sóla dimensión.
+///
+/// @parameter {String} $align  - Usada para alinear los ítems del eje secundario (por defecto, el vertical).
+/// @parameter {String} $justify  - Se utiliza para alinear los ítems del eje principal (por defecto, el horizontal).
+/// @parameter {String} $direction  - Cambia la orientación del eje principal.
+@mixin flexbox($align: normal, $justify: normal, $direction: row) {
+    @include flex;
+    flex-direction:  $direction;
+    align-items:     $align;
+    justify-content: $justify;
+}
