@@ -36,8 +36,10 @@ const initialRecipes: Recipe[] = [
 const Home: React.FC = () => {
   return (
     <>
-      <h1>¿Qué vamos a cocinar hoy?</h1>
-      <h2>Descubre miles de recetas caseras con un toque moderno</h2>
+      <section className='call-to-action'>
+        <h1>¿Qué vamos a cocinar hoy?</h1>
+        <h2>Descubre miles de recetas caseras con un toque moderno</h2>
+      </section>
       <div className='container'>
         <h3>Recetas destacadas</h3>
         <ul className='list card-list'>

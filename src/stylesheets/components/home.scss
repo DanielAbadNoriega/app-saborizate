@@ -1,3 +1,16 @@
-h1, h2 {
-    text-align: center;
+.call-to-action {
+    padding-top: $halfGutter;
+
+    h1,
+    h2 {
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: $min-inline-space-gutter;
+    }
+
+    h2 {
+        @include fontType($brand-primary, $weight-regular, $font-size-small, 0, $line-height-base);
+    }
 }
