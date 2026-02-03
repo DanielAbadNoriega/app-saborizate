@@ -37,6 +37,7 @@ h1 {
 }
 
 .card {
+        background-color: $color-white;
     border-radius: $halfGutter;
     overflow: hidden;
     box-shadow: 3px 3px 12px lightgray;
