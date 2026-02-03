@@ -1,5 +1,9 @@
 import React from 'react';
-
+import paella from "../assets/images/paella-valenciana.jpg";
+import tortilla from "../assets/images/tortilla-patata.jpg";
+import gazpacho from "../assets/images/gazpacho-andaluz.jpg";
+import { FaClock } from "react-icons/fa";
+import { FaSignal } from "react-icons/fa";
 // Define a TypeScript interface for a recipe. This will help us later when
 // fetching or manipulating recipe data because it enforces the structure
 // (id, name, category, difficulty, time). Using interfaces is part of the
@@ -10,6 +14,7 @@ interface Recipe {
   category: string;
   difficulty: string;
   time: number; // preparation time in minutes
+  image?: string;
 }
 
 // A static list of recipes for the first step of the Home page. Initially we
@@ -17,9 +22,9 @@ interface Recipe {
 // involving state, search or filters. Each recipe adheres to the Recipe
 // interface defined above.
 const initialRecipes: Recipe[] = [
-  { id: 1, name: 'Paella Valenciana', category: 'Arroces', difficulty: 'Media', time: 60 },
-  { id: 2, name: 'Tortilla de Patatas', category: 'Huevos', difficulty: 'Baja', time: 30 },
-  { id: 3, name: 'Gazpacho Andaluz', category: 'Sopas', difficulty: 'Baja', time: 20 },
+  { id: 1, name: 'Paella Valenciana', category: 'Arroces', difficulty: 'Media', time: 60, image: paella },
+  { id: 2, name: 'Tortilla de Patatas', category: 'Huevos', difficulty: 'Baja', time: 30, image: tortilla },
+  { id: 3, name: 'Gazpacho Andaluz', category: 'Sopas', difficulty: 'Baja', time: 20, image: gazpacho },
 ];
 
 /**
@@ -33,12 +38,24 @@ const Home: React.FC = () => {
     <>
       <h1>¿Qué vamos a cocinar hoy?</h1>
       <h2>Descubre miles de recetas caseras con un toque moderno</h2>
-      <div style={{ padding: '1rem' }}>
-        <h1>Recetas</h1>
-        <ul>
+      <div className='container'>
+        <h3>Recetas destacadas</h3>
+        <ul className='list card-list'>
           {initialRecipes.map((recipe) => (
-            <li key={recipe.id} style={{ marginBottom: '0.5rem' }}>
-              <strong>{recipe.name}</strong> — {recipe.category} — {recipe.difficulty} — {recipe.time} minutos
+            <li className="list-item" key={recipe.id}>
+              <div className='card card-img'>
+                <div className='img-container'>
+                  <img src={recipe.image} />
+                  <div className="category">{recipe.category}</div>
+                </div>
+                <div className="card-body">
+                  <div className='title'>{recipe.name}</div>
+                  <div className="specs">
+                    <div className="time"><FaClock className="clock-icon" />{recipe.time} minutos</div>
+                    <div className="difficulty"><FaSignal className='level-icon' />{recipe.difficulty}</div>
+                  </div>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

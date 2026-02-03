@@ -1,5 +1,21 @@
 // -------
-// Font Sizes
+// Screen
+// -------
+
+$screen-xs-min: 420px;
+$screen-sm-min: 720px;
+$screen-md-min: 990px;
+$screen-lg-min: 1024px;
+$screen-xl-min: 1400px;
+
+$screen-xs-max: 421px;
+$screen-sm-max: 721px;
+$screen-md-max: 991px;
+$screen-lg-max: 1025px;
+$screen-xl-max: 1401px;
+
+// -------
+// Colors
 // -------
 
 $bg-primary: #F9FAFC;
@@ -10,13 +26,31 @@ $brand-secondary: #EEF7EB;
 
 $brand-terciary: #76E920;
 
+$color-black: #000;
+$color-white: #FFF;
+
+// -------
+// Font Weight
+// -------
+
+$font-family-base: "Open Sans", sans-serif;
+$font-family-head: "Playfair Display", serif;
+
 // -------
 // Font Weight
 // -------
 
 $weight-regular: 400;
-$weight-semibold: 500;
+$weight-semibold: 600;
 $weight-bold: 700;
+
+// -------
+// Spacing
+// -------
+
+$min-inline-space-gutter: 6px;
+$halfGutter: 15px;
+$grid-gutter: 30px;
 
 // -------
 // Font Sizes
