@@ -40,12 +40,12 @@ const Home: React.FC = () => {
 	const [searchItem, setSearchItem] = useState<string>("");
 
 	const filteredRecipes = initialRecipes.filter((recipe) => {
-
+		const {name, category, difficulty } = recipe;
 		const term = searchItem.toLowerCase();
 		return (
-			recipe.name.toLowerCase().includes(term) ||
-			recipe.category.toLowerCase().includes(term) ||
-			recipe.difficulty.toLowerCase().includes(term)
+			name.toLowerCase().includes(term) ||
+			category.toLowerCase().includes(term) ||
+			difficulty.toLowerCase().includes(term)
 		)
 	});
 
