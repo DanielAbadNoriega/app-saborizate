@@ -4,6 +4,7 @@ import tortilla from "../assets/images/tortilla-patata.jpg";
 import gazpacho from "../assets/images/gazpacho-andaluz.jpg";
 import { FaClock } from "react-icons/fa";
 import { FaSignal } from "react-icons/fa";
+import Header from './Header';
 // Define a TypeScript interface for a recipe. This will help us later when
 // fetching or manipulating recipe data because it enforces the structure
 // (id, name, category, difficulty, time). Using interfaces is part of the
@@ -36,6 +37,7 @@ const initialRecipes: Recipe[] = [
 const Home: React.FC = () => {
   return (
     <>
+      <Header />
       <section className='call-to-action'>
         <h1>¿Qué vamos a cocinar hoy?</h1>
         <h2>Descubre miles de recetas caseras con un toque moderno</h2>
