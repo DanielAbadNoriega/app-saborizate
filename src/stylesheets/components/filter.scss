@@ -68,7 +68,7 @@
     padding-right: $grid-gutter + $min-inline-space-gutter;
     border-radius: $halfGutter + $min-inline-space-gutter;
     border-color: $gray-light;
-    @include fontType($gray-darkest, $weight-semibold, $font-size-small, 0, $line-height-base);
+    @include fontType($gray-dark, $weight-semibold, $font-size-small, 0, $line-height-base);
     cursor: pointer;
     -webkit-appearance: none;
     /* Safari/Chrome */
