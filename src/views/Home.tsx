@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
+import type { Recipe } from '../models/recipe';
+import Header from './Header';
+import SearchBar from './SearchBar';
+import RecipeCard from './RecipeCard';
 import paella from "../assets/images/paella-valenciana.jpg";
 import tortilla from "../assets/images/tortilla-patata.jpg";
 import gazpacho from "../assets/images/gazpacho-andaluz.jpg";
-import { FaClock } from "react-icons/fa";
-import { FaSignal } from "react-icons/fa";
-import { FaSearch } from "react-icons/fa";
-import Header from './Header';
-// Define a TypeScript interface for a recipe. This will help us later when
-// fetching or manipulating recipe data because it enforces the structure
-// (id, name, category, difficulty, time). Using interfaces is part of the
-// Model layer in the MVC pattern, where we define our data models.
-interface Recipe {
-	id: number;
-	name: string;
-	category: string;
-	difficulty: string;
-	time: number; // preparation time in minutes
-	image?: string;
-}
+
 
 // A static list of recipes for the first step of the Home page. Initially we
 // hardcode a few recipes so we can focus on rendering a list without
@@ -62,26 +51,13 @@ const Home: React.FC = () => {
 			</section>
 			<div className='container'>
 				<div className='search-container'>
-					<FaSearch className='search-icon' />
-					<input id='main-searcher' name='filter' className='recipe-search default-search' type='text' value={searchItem} onChange={(e) => handleChange(e)} placeholder='Busca una receta (ej. Lasaña, Tacos, Brownies...)'></input>
+					<SearchBar searchItem={searchItem} handleChange={handleChange} />
 				</div>
 				<h3>Recetas destacadas</h3>
 				<ul className='list card-list'>
 					{filteredRecipes.map((recipe) => (
 						<li className="list-item" key={recipe.id}>
-							<div className='card card-img'>
-								<div className='img-container'>
-									<img src={recipe.image} />
-									<div className="category">{recipe.category}</div>
-								</div>
-								<div className="card-body">
-									<div className='title'>{recipe.name}</div>
-									<div className="specs">
-										<div className="time"><FaClock className="clock-icon" />{recipe.time} minutos</div>
-										<div className="difficulty"><FaSignal className='level-icon' />{recipe.difficulty}</div>
-									</div>
-								</div>
-							</div>
+							<RecipeCard recipe={recipe} />
 						</li>
 					))}
 				</ul>
