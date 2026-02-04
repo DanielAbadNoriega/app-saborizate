@@ -1,3 +1,5 @@
+@use "./variables" as *;
+
 /// Mixin para aplicar el tipo de fuente
 /// @parameter color - Color de letra (hex, number, letra...)
 /// @parameter {Number} font-weight - font-weight de la letra
