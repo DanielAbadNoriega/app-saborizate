@@ -1,3 +1,117 @@
 body {
+    margin: 0;
     background-color: $bg-primary;
+    font-family: $font-family-base;
+}
+
+h1 {
+    font-size: $font-size-h1;
+    font-weight: $weight-bold;
+}
+
+.container {
+    width: 90dvw;
+    margin: 0 auto;
+    padding: $halfGutter;
+}
+
+.list {
+    list-style: none;
+}
+
+.card-list {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $halfGutter + $min-inline-space-gutter / 2;
+
+    @media screen and (min-width: $screen-sm-min) {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: $halfGutter;
+    }
+
+    @media screen and (min-width: $screen-md-min) {
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: $grid-gutter;
+    }
+}
+
+.card {
+    background-color: $color-white;
+    border-radius: $halfGutter;
+    overflow: hidden;
+    box-shadow: 3px 3px 12px $gray-light;
+
+    &-img {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .img-container {
+            flex-basis: 80%;
+            position: relative;
+
+            img {
+                height: 245px;
+                width: 100%;
+                object-fit: cover;
+            }
+
+        }
+
+        .heart-icon {
+            padding: $min-inline-space-gutter;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: $color-white;
+            border-radius: 50%;
+            color: $gray-light;
+            font-size: $font-size-smaller;
+        }
+
+        .category {
+            padding: $min-inline-space-gutter $min-inline-space-gutter * 2;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: $brand-terciary;
+            border-radius: $halfGutter + $min-inline-space-gutter;
+            text-transform: uppercase;
+            @include fontType($color-black, $weight-semibold, $font-size-smaller, 0, $line-height-base);
+        }
+    }
+
+    &-body {
+        padding: $halfGutter $halfGutter;
+
+        .title {
+            font-size: $font-size-small;
+            font-weight: $weight-bold;
+        }
+
+        .specs {
+            margin-top: $min-inline-space-gutter * 2;
+            @include flex();
+            gap: $halfGutter;
+            @include fontType($brand-primary, $weight-semibold, $font-size-smaller, 0, $line-height-base);
+            text-transform: uppercase;
+
+            >div {
+                @include flexbox(center, initial);
+                gap: $min-inline-space-gutter;
+            }
+
+            [class*='-icon'] {
+                font-weight: $weight-bold;
+                padding-bottom: 1px;
+            }
+
+            .level-icon {
+                font-size: $font-size-small;
+            }
+        }
+    }
+
+
 }

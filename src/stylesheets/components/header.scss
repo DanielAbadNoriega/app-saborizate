@@ -1,0 +1,15 @@
+header {
+    min-height: $grid-gutter * 2.5;
+    border-bottom: 1px solid $gray-light;
+    background-color: $color-white;
+    @include flexbox(center, initial);
+
+    @media screen and (min-width: $screen-sm-min) {
+        padding-left: $grid-gutter + $min-inline-space-gutter * 1.5;
+        padding-right: $grid-gutter + $min-inline-space-gutter * 1.5;
+    }
+
+    h2 {
+        margin: 0;
+    }
+}
