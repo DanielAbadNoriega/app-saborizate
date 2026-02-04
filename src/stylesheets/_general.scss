@@ -40,7 +40,7 @@ h1 {
     background-color: $color-white;
     border-radius: $halfGutter;
     overflow: hidden;
-    box-shadow: 3px 3px 12px lightgray;
+    box-shadow: 3px 3px 12px $gray-light;
 
     &-img {
         height: 100%;
@@ -56,6 +56,18 @@ h1 {
                 width: 100%;
                 object-fit: cover;
             }
+
+        }
+
+        .heart-icon {
+            padding: $min-inline-space-gutter;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: $color-white;
+            border-radius: 50%;
+            color: $gray-light;
+            font-size: $font-size-smaller;
         }
 
         .category {
