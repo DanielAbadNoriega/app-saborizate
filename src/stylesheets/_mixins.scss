@@ -38,11 +38,36 @@
 
     @if $breakpoints !='' {
       // Extraemos y validamos los valores de los breakpoints
-      $xs: if(map-has-key($breakpoints, 'xs'), map-get($breakpoints, 'xs'), ($cols, auto));
-      $sm: if(map-has-key($breakpoints, 'sm'), map-get($breakpoints, 'sm'), ($cols, auto));
-      $md: if(map-has-key($breakpoints, 'md'), map-get($breakpoints, 'md'), ($cols, auto));
-      $lg: if(map-has-key($breakpoints, 'lg'), map-get($breakpoints, 'lg'), ($cols, auto));
-      $xl: if(map-has-key($breakpoints, 'xl'), map-get($breakpoints, 'xl'), ($cols, auto));
+      @if map-has-key($breakpoints, 'xs') {
+        $xs: map-get($breakpoints, 'xs');
+      } @else {
+        $xs: ($cols, auto);
+      }
+
+      @if map-has-key($breakpoints, 'sm') {
+        $sm: map-get($breakpoints, 'sm');
+      } @else {
+        $sm: ($cols, auto);
+      }
+
+      @if map-has-key($breakpoints, 'md') {
+        $md: map-get($breakpoints, 'md');
+      } @else {
+        $md: ($cols, auto);
+      }
+
+      @if map-has-key($breakpoints, 'lg') {
+        $lg: map-get($breakpoints, 'lg');
+      } @else {
+        $lg: ($cols, auto);
+      }
+
+      @if map-has-key($breakpoints, 'xl') {
+        $xl: map-get($breakpoints, 'xl');
+      } @else {
+        $xl: ($cols, auto);
+      }
+
 
       // Validamos y aplicamos los valores para cada breakpoint
       @each $key, $value in ('xs': $xs, 'sm': $sm, 'md': $md, 'lg': $lg) {
@@ -178,10 +203,30 @@
                 clear: both;
             }
         } @else {
-            $xs: if(map-has-key($breakpoints,'xs'),map-get($breakpoints,'xs'),1);
-            $sm: if(map-has-key($breakpoints,'sm'),map-get($breakpoints,'sm'),$cols);
-            $md: if(map-has-key($breakpoints,'md'),map-get($breakpoints,'md'),$cols);
-            $lg: if(map-has-key($breakpoints,'lg'),map-get($breakpoints,'lg'),$cols);
+            @if map-has-key($breakpoints, 'xs') {
+                $xs: map-get($breakpoints, 'xs');
+            }@else {
+                $xs: 1;
+            }
+
+            @if map-has-key($breakpoints, 'sm') {
+                $sm: map-get($breakpoints, 'sm');
+            }@else {
+                $sm: $cols;
+            }
+
+            @if map-has-key($breakpoints, 'md') {
+                $md: map-get($breakpoints, 'md');
+            }@else {
+                $md: $cols;
+            }
+
+            @if map-has-key($breakpoints, 'lg') {
+                $lg: map-get($breakpoints, 'lg');
+            }@else {
+                $lg: $cols;
+            }
+
 
             // Generamos los media para cada caso...
             @include columnize-list ($xs) {
@@ -277,10 +322,29 @@
                 clear: both;
             }
         } @else {
-            $xs: if(map-has-key($breakpoints,'xs'),map-get($breakpoints,'xs'),1);
-            $sm: if(map-has-key($breakpoints,'sm'),map-get($breakpoints,'sm'),$cols);
-            $md: if(map-has-key($breakpoints,'md'),map-get($breakpoints,'md'),$cols);
-            $lg: if(map-has-key($breakpoints,'lg'),map-get($breakpoints,'lg'),$cols);
+            @if map-has-key($breakpoints, 'xs') {
+                $xs: map-get($breakpoints, 'xs');
+            } @else {
+                $xs: 1;
+            }
+
+            @if map-has-key($breakpoints, 'sm') {
+                $sm: map-get($breakpoints, 'sm');
+            } @else {
+                $sm: $cols;
+            }
+
+            @if map-has-key($breakpoints, 'md') {
+                $md: map-get($breakpoints, 'md');
+            } @else {
+                $md: $cols;
+            }
+
+            @if map-has-key($breakpoints, 'lg') {
+                $lg: map-get($breakpoints, 'lg');
+            } @else {
+                $lg: $cols;
+            }
 
             // Generamos los media para cada caso...
             @include columnize-any ($xs) {
