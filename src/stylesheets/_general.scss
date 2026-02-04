@@ -1,3 +1,6 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+
 body {
     margin: 0;
     background-color: $bg-primary;
@@ -23,7 +26,7 @@ h1 {
     padding: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: $halfGutter + $min-inline-space-gutter / 2;
+    gap: calc($halfGutter + $min-inline-space-gutter / 2);
 
     @media screen and (min-width: $screen-sm-min) {
         grid-template-columns: repeat(2, 1fr);

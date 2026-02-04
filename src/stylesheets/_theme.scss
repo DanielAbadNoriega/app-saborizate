@@ -1,6 +1,6 @@
-@import "./variables";
-@import "./mixins";
-@import "./general";
+// _theme.scss
+@use "./variables" as *;
+@use "./mixins" as *;
+@use "./general";
 
-// Components
-@import './components/index.scss';
+@use "./components/index.scss";

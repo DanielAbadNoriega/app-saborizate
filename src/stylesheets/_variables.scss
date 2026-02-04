@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // -------
 // Screen
 // -------
@@ -79,9 +81,9 @@ $font-size-small:         (($font-size-base * 0.875)) !default; 	// 14px
 $font-size-directory:     (($font-size-base * 0.8125)) !default;    // 13px;
 $font-size-smaller:       (($font-size-base * 0.75)) !default; 	// 12px
 
-$fs-title-huge: ceil(($font-size-base * 4));   // 64px
-$fs-title-xl: ceil(($font-size-base * 3.2));   // 52px
-$fs-title-md: ceil(($font-size-base * 2.5));;  // 40px
+$fs-title-huge: math.ceil(($font-size-base * 4));   // 64px
+$fs-title-xl: math.ceil(($font-size-base * 3.2));   // 52px
+$fs-title-md: math.ceil(($font-size-base * 2.5));;  // 40px
 $font-size-h1: (($font-size-base * 2.25)) !default; // ~36px
 $font-size-h2: (($font-size-base * 1.875)) !default; // ~30px
 $font-size-h3: (($font-size-base * 1.5)) !default; // ~24px
