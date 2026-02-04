@@ -1,0 +1,86 @@
+.filters-container {
+    margin: $grid-gutter 0;
+    @include flex();
+    gap: $halfGutter + $min-inline-space-gutter;
+
+    h3 {
+        @include flexbox(center, initial);
+        gap: $min-inline-space-gutter;
+        @include fontType($gray, $weight-semibold, $font-size-smaller, 0, $line-height-base);
+        text-transform: uppercase;
+    }
+}
+
+.custom-select {
+    position: relative;
+
+    &::before,
+    &::after {
+        --size: 0.3rem;
+        position: absolute;
+        content: "";
+        right: 1rem;
+        pointer-events: none;
+    }
+
+    &::before {
+        border-left: var(--size) solid transparent;
+        border-right: var(--size) solid transparent;
+        border-bottom: var(--size) solid $brand-primary;
+        top: 35%;
+    }
+
+    &::after {
+        border-left: var(--size) solid transparent;
+        border-right: var(--size) solid transparent;
+        border-top: var(--size) solid $brand-primary;
+        top: 55%;
+    }
+
+    &.active {
+        .filter {
+            background-color: $brand-terciary;
+            color: $color-white;
+            border-color: $brand-terciary;
+            outline-color: $brand-terciary;
+        }
+
+        &::before {
+            border-bottom-color: $color-white;
+        }
+
+        &::after {
+            border-top-color: $color-white;
+        }
+    }
+}
+
+
+.filter-icon {
+    color: $gray-dark;
+    font-weight: $weight-bold;
+    rotate: calc(90deg);
+}
+
+.filter {
+    padding: $min-inline-space-gutter * 2;
+    padding-left: $grid-gutter - $min-inline-space-gutter;
+    padding-right: $grid-gutter + $min-inline-space-gutter;
+    border-radius: $halfGutter + $min-inline-space-gutter;
+    border-color: $gray-light;
+    @include fontType($gray-darkest, $weight-semibold, $font-size-small, 0, $line-height-base);
+    cursor: pointer;
+    -webkit-appearance: none;
+    /* Safari/Chrome */
+    -moz-appearance: none;
+    /* Firefox */
+    appearance: none;
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:focus-visible {
+        border-color: $brand-terciary;
+        outline-color: $brand-terciary;
+    }
+}

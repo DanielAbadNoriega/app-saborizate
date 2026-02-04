@@ -3,6 +3,8 @@ import type { Recipe } from '../models/recipe';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import RecipeCard from '../components/RecipeCard';
+import Filter from '../components/Filter';
+import { RiSoundModuleFill } from "react-icons/ri";
 import paella from "../assets/images/paella-valenciana.jpg";
 import tortilla from "../assets/images/tortilla-patata.jpg";
 import gazpacho from "../assets/images/gazpacho-andaluz.jpg";
@@ -26,16 +28,55 @@ const initialRecipes: Recipe[] = [
  */
 const Home: React.FC = () => {
 
+	const category = "Categoría";
+
+	const difficulty = "Dificultad";
+
 	const [searchItem, setSearchItem] = useState<string>("");
 
+	const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+	const [selectedDifficulty, setSelectedDifficulty] = useState<string>("");
+
+	const recipeCategories = Array.from(new Set(initialRecipes.map(r => r.category)));
+
+	const recipeDifficulties = Array.from(new Set(initialRecipes.map(r => r.difficulty)));
+
+	const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectedCategory(e.target.value);
+	}
+
+	const handleDifficultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectedDifficulty(e.target.value);
+	}
+
 	const filteredRecipes = initialRecipes.filter((recipe) => {
-		const {name, category, difficulty } = recipe;
+		const { name, category, difficulty } = recipe;
+
+		// Normaliza todos los valores a minúsculas
 		const term = searchItem.toLowerCase();
-		return (
+		const userCategory = selectedCategory.toLowerCase();
+		const userDifficulty = selectedDifficulty.toLowerCase();
+
+		// Comprueba si el término de búsqueda coincide con algún campo
+		const matchesSearch =
 			name.toLowerCase().includes(term) ||
 			category.toLowerCase().includes(term) ||
-			difficulty.toLowerCase().includes(term)
-		)
+			difficulty.toLowerCase().includes(term);
+
+		// Comprueba si la receta coincide con la categoría seleccionada
+		// Si no se ha seleccionado ninguna categoría, matchesCategory será true
+		const matchesCategory =
+			userCategory === '' || category.toLowerCase() === userCategory;
+
+		// Comprueba si la receta coincide con la dificultad seleccionada
+		// Si no se ha seleccionado ninguna dificultad, matchesDifficulty será true
+		const matchesDifficulty =
+			userDifficulty === '' || difficulty.toLowerCase() === userDifficulty;
+
+		// Devuelve las que cumplen las tres condiciones
+  		return matchesSearch && matchesCategory && matchesDifficulty;
+
 	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +93,12 @@ const Home: React.FC = () => {
 			<div className='container'>
 				<div className='search-container'>
 					<SearchBar searchItem={searchItem} handleChange={handleChange} />
+				</div>
+				<div className="filters-container">
+					<h3><RiSoundModuleFill className='filter-icon' />Filtrar por</h3>
+					<Filter type={category} selectedItem={selectedCategory} options={recipeCategories} handleChange={handleCategoryChange} />
+
+					<Filter type={difficulty} selectedItem={selectedDifficulty} options={recipeDifficulties} handleChange={handleDifficultyChange} />
 				</div>
 				<h3>Recetas destacadas</h3>
 				<ul className='list card-list'>

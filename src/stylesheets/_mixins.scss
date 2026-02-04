@@ -397,3 +397,28 @@
     align-items:     $align;
     justify-content: $justify;
 }
+
+/// Genera un caret (triangulo) que puede ser empleado en los select (por defecto se emplea en ellos)
+/// o en otros elementos
+//
+/// @parameter {Number} $width  - La anchura del caret
+/// @parameter {String} $color  - Color vinculado al mismo
+/// @parameter {Boolean} $direction  - Cambia la orientación, si apunta hacia abajo (por defecto) o si queremos darle la vuelta apuntando hacia arriba.
+@mixin caret($width,$color,$reverse:false) {
+    content: '';
+    width: 0;
+    height: 0;
+    @if(variable-exists('bs3')) {
+        border-width: 0 $width - 1;
+    } @else {
+        border-width: 0 calc(#{$width} - 1px);
+    }
+    border-style: solid;
+    @if($reverse) {
+        border-bottom-width: $width;
+        border-color: transparent transparent $color transparent;
+    } @else {
+        border-top-width: $width;
+        border-color: $color transparent transparent transparent;
+    }
+}
