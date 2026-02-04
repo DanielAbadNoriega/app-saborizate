@@ -13,7 +13,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.src/views/GPT
+.src/views/GPT/*
 .vscode/*
 !.vscode/extensions.json
 .idea

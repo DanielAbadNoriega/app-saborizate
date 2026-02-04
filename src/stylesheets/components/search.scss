@@ -23,7 +23,7 @@
     padding-left: $grid-gutter + $min-inline-space-gutter * 1.5;
     padding-right: $grid-gutter + $min-inline-space-gutter * 1.5;
     display: block;
-    border: 1px solid $gray-lighter;
+    border: 1px solid $gray-light;
     border-radius: $halfGutter;
 
     &::placeholder {

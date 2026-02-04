@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import type { Recipe } from '../models/recipe';
-import Header from './Header';
-import SearchBar from './SearchBar';
-import RecipeCard from './RecipeCard';
+import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
+import RecipeCard from '../components/RecipeCard';
 import paella from "../assets/images/paella-valenciana.jpg";
 import tortilla from "../assets/images/tortilla-patata.jpg";
 import gazpacho from "../assets/images/gazpacho-andaluz.jpg";

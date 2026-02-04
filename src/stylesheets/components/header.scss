@@ -1,6 +1,6 @@
 header {
     min-height: $grid-gutter * 2.5;
-    border-bottom: 1px solid #f6f5f5;
+    border-bottom: 1px solid $gray-light;
     background-color: $color-white;
     @include flexbox(center, initial);
 
